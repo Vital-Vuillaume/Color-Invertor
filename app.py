@@ -21,11 +21,9 @@ app.attributes('-zoomed', True)
 
 app.minsize(width=700, height=400)
 
-# Créer un cadre pour contenir le texte et le bouton
 frame = tk.Frame(app, bg="#14131e")
 frame.pack(expand=True, fill=tk.BOTH, pady=5, padx=40)
 
-# Ajouter une zone de texte déroulante pour afficher du texte long
 text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" * 1000
 label = tk.Text(frame, wrap=tk.WORD, height=10, bg="#14131e", highlightthickness=0, bd=0, fg="white")
 label.insert(tk.END, text)
