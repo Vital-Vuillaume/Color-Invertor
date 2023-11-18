@@ -19,11 +19,11 @@ def toggle_image2_visibility(event=None):
     current_width = app.winfo_width()
     if current_width >= 1700:
         canvas2.config(width=350, height=350)
-        label_titre.config(font=(global_font, 34))
+        label_titre.config(font=(global_font, 34), state="disabled")
         canvas2.pack(side=tk.LEFT)
     else:
         canvas2.config(width=300, height=300)
-        label_titre.config(font=(global_font, 16))
+        label_titre.config(font=(global_font, 16), state="disabled")
 
 app = tk.Tk()
 app.title("Ma première application")
