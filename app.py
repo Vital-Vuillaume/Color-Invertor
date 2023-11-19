@@ -1,9 +1,25 @@
 import tkinter as tk
 from tkinter import PhotoImage, Canvas
 import platform
+import os
+
+system = platform.system().lower()
 
 def on_image_click(event):
-    pass
+    def open_file_explorer():
+        """
+        Ouvre l'explorateur de fichiers par défaut du système d'exploitation.
+        """
+
+        if system == "windows":
+            os.system("start explorer")
+        elif system == "darwin":
+            os.system("open .")
+        elif system == "linux":
+            os.system("xdg-open .")
+        else:
+            print("Système d'exploitation non pris en charge.")
+    open_file_explorer()
 
 def on_image_hover(event):
     canvas.config(cursor="hand2")
@@ -32,7 +48,7 @@ app.configure(bg="#1a1a30")
 global_font = ('Ubuntu',)
 app.option_add("*Font", global_font)
 
-if platform.system() == "Windows":
+if system == "Windows":
     app.iconbitmap("icone.ico")
 
 app.attributes('-zoomed', True)
@@ -63,7 +79,6 @@ image2 = PhotoImage(file="image2.png")
 image_button2 = canvas2.create_image(0, 0, anchor=tk.NW, image=image2, tags="img2")
 canvas2.tag_bind("img2", '<Enter>', on_image_hover)
 canvas2.tag_bind("img2", '<Leave>', on_image_leave)
-canvas2.tag_bind("img2", '<Button-1>', on_image_click)
 
 app.bind("<Configure>", toggle_image2_visibility)
 
