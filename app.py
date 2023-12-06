@@ -1,25 +1,13 @@
 import tkinter as tk
-from tkinter import PhotoImage, Canvas
+from tkinter import PhotoImage, Canvas, filedialog
 import platform
-import os
 
 system = platform.system().lower()
 
 def on_image_click(event):
-    def open_file_explorer():
-        """
-        Ouvre l'explorateur de fichiers par défaut du système d'exploitation.
-        """
-
-        if system == "windows":
-            os.system("start explorer")
-        elif system == "darwin":
-            os.system("open .")
-        elif system == "linux":
-            os.system("xdg-open .")
-        else:
-            print("Système d'exploitation non pris en charge.")
-    open_file_explorer()
+    file_path = filedialog.askopenfilename(filetypes=[("Images", "*.png;*.jpg;*.jpeg;*.gif;*.bmp")])
+    if file_path:
+        update_image(file_path)
 
 def on_image_hover(event):
     canvas.config(cursor="hand2")
@@ -30,8 +18,6 @@ def on_image_leave(event):
     canvas2.config(cursor="")
 
 def toggle_image2_visibility(event=None):
-    global canvas2
-    global label_titre
     current_width = app.winfo_width()
     if current_width >= 1700:
         canvas2.config(width=350, height=350)
@@ -41,6 +27,11 @@ def toggle_image2_visibility(event=None):
         canvas2.config(width=300, height=300)
         label_titre.config(font=(global_font, 16), state="disabled")
 
+def update_image(file_path):
+    global image2, image_button2
+    image2 = PhotoImage(file=file_path)
+    canvas2.itemconfig(image_button2, image=image2)
+
 app = tk.Tk()
 app.title("Ma première application")
 
@@ -48,7 +39,7 @@ app.configure(bg="#1a1a30")
 global_font = ('Ubuntu',)
 app.option_add("*Font", global_font)
 
-if system == "Windows":
+if system == "windows":
     app.iconbitmap("icone.ico")
 
 app.attributes('-zoomed', True)
