@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage, Canvas, filedialog
+from PIL import Image, ImageTk
 import platform
 
 system = platform.system().lower()
@@ -27,10 +28,21 @@ def toggle_image2_visibility(event=None):
         canvas2.config(width=300, height=300)
         label_titre.config(font=(global_font, 16), state="disabled")
 
+def save_transformed_image(event):
+    file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
+    if file_path:
+        transformed_image = ImageTk.getimage(canvas2.image)
+        transformed_image.save(file_path)
+        print(f"Image saved to {file_path}")
+
 def update_image(file_path):
     global image2, image_button2
-    image2 = PhotoImage(file=file_path)
-    canvas2.itemconfig(image_button2, image=image2)
+    image = Image.open(file_path)
+    image = image.convert("L")
+    image = ImageTk.PhotoImage(image)
+    canvas2.itemconfig(image_button2, image=image)
+    canvas2.image = image
+    canvas2.tag_bind("img2", '<Button-1>', save_transformed_image)
 
 app = tk.Tk()
 app.title("Ma première application")
@@ -66,7 +78,8 @@ label_titre.insert(tk.END, titre)
 label_titre.pack(side=tk.LEFT)
 
 canvas2 = Canvas(frame_title_canvas2, bg="#1a1a30", width=350, height=350, highlightthickness=0, bd=0)
-image2 = PhotoImage(file="image2.png")
+image2 = Image.open("image2.png")
+image2 = ImageTk.PhotoImage(image2)
 image_button2 = canvas2.create_image(0, 0, anchor=tk.NW, image=image2, tags="img2")
 canvas2.tag_bind("img2", '<Enter>', on_image_hover)
 canvas2.tag_bind("img2", '<Leave>', on_image_leave)
