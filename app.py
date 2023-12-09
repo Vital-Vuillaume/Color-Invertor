@@ -6,7 +6,7 @@ import platform
 system = platform.system().lower()
 
 def on_image_click(event):
-    file_path = filedialog.askopenfilename(filetypes=[("Images", "*.png;*.jpeg;*.jpg*.ico*.gif*.webm*")])
+    file_path = filedialog.askopenfilename(filetypes=[("","ㅤ.pngㅤ.jpegㅤ.jpgㅤ.icoㅤ.gifㅤ.webmㅤ")], title="Select a file")
     if file_path:
         update_image(file_path)
 
@@ -28,10 +28,10 @@ def toggle_image2_visibility(event=None):
     else:
         canvas2.config(width=300, height=300)
         label_titre.config(font=(global_font, 16), state="disabled")
-        app.minsize(width=970, height=700)
+        app.minsize(width=970, height=685)
 
 def save_transformed_image(event):
-    file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
+    file_path = filedialog.asksaveasfilename(defaultextension=".png", title="Save As")
     if file_path:
         transformed_image = ImageTk.getimage(canvas2.image)
         transformed_image.save(file_path)
@@ -51,7 +51,7 @@ def update_image(file_path):
     canvas2.tag_bind("img2", '<Button-1>', save_transformed_image)
 
 app = tk.Tk()
-app.title("Ma première application")
+app.title("ColorInvertor")
 
 app.configure(bg="#1a1a30")
 global_font = ('Ubuntu',)
@@ -62,7 +62,7 @@ if system == "windows":
 
 app.attributes('-zoomed', True)
 
-app.minsize(width=970, height=700)
+app.minsize(width=970, height=685)
 
 waist = 500
 
@@ -71,7 +71,7 @@ frame.pack(expand=True, fill=tk.BOTH, padx=90)
 
 canvas = Canvas(frame, bg="#1a1a30", width=300, height=320, highlightthickness=0, bd=0)
 canvas.pack()
-image = PhotoImage(file="image.png")
+image = PhotoImage(file="image1.png")
 image_button = canvas.create_image(25, 60, anchor=tk.NW, image=image, tags="img")
 canvas.tag_bind("img", '<Enter>', on_image_hover)
 canvas.tag_bind("img", '<Leave>', on_image_leave)
